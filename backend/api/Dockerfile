@@ -2,12 +2,14 @@
 FROM php:8.3-cli
 
 # Instala dependências do sistema e extensões PHP necessárias
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     git \
     libicu-dev \
+    libonig-dev \
     libxml2-dev \
     libzip-dev \
+    pkg-config \
     unzip \
     zlib1g-dev \
  && docker-php-ext-configure intl \
