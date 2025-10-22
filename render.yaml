@@ -1,7 +1,7 @@
 services:
   - type: web
     name: tutorial-manager-backend
-    env: php
+    runtime: php
     rootDir: backend/api
     buildCommand: "composer install --no-dev --optimize-autoloader"
     startCommand: "php -S 0.0.0.0:10000 -t public"
