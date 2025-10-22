@@ -1,0 +1,19 @@
+# Root ignore for Tutorial Manager
+
+# Backend
+backend/composer.phar
+backend/api/vendor/
+backend/api/var/
+backend/api/config/jwt/*.pem
+backend/api/.env.local
+backend/api/tmp/
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.env.local
+
+# OS/IDE
+.DS_Store
+Thumbs.db
+.vscode/
