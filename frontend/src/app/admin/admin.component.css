@@ -1,0 +1,8 @@
+/* Basic admin page spacing */
+.admin-page h2 {
+  color: #212529;
+}
+
+.admin-page .card-title {
+  margin-bottom: 1rem;
+}

@@ -1,0 +1,41 @@
+<a href="#main-content" class="skip-link">Pular para o conteúdo</a>
+<nav *ngIf="!isLoginRoute" class="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="Navegação principal">
+  <div class="container-fluid">
+    <a class="navbar-brand" routerLink="/">Tutoriais</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a></li>
+        <li class="nav-item" *ngIf="user"><a class="nav-link" routerLink="/tutorials" routerLinkActive="active">Dashboard</a></li>
+        <li class="nav-item" *ngIf="user"><a class="nav-link" routerLink="/add" routerLinkActive="active">Adicionar</a></li>
+      </ul>
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item" *ngIf="!user"><a class="nav-link" routerLink="/login">Login</a></li>
+        <li class="nav-item user-menu" *ngIf="user">
+          <a id="user-menu-toggle" class="nav-link d-flex align-items-center user-menu-toggle" (click)="toggleUserMenu($event)" style="cursor:pointer" aria-haspopup="true" [attr.aria-expanded]="showUserMenu ? 'true' : 'false'" aria-controls="user-menu" aria-label="Alternar menu do usuário">
+            <span class="avatar me-2">{{ avatarInitials }}</span>
+            <span class="username">{{ displayName }}</span>
+          </a>
+          <div id="user-menu" class="dropdown-menu dropdown-menu-end" *ngIf="showUserMenu" role="menu" aria-labelledby="user-menu-toggle">
+            <a class="dropdown-item" (click)="navigateChangePassword()">Alterar senha</a>
+            <a class="dropdown-item" *ngIf="isAdmin" (click)="navigateAdmin()">Admin</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" (click)="logout()">Logoff</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<main id="main-content" [ngClass]="{ 'container py-4 main-container': !isLoginRoute, 'login-host': isLoginRoute }" aria-label="Conteúdo principal">
+  <nav *ngIf="!isLoginRoute" aria-label="breadcrumb" class="mb-3">
+    <ol class="breadcrumb mb-0">
+      <li class="breadcrumb-item" *ngIf="crumbParent"><a [routerLink]="resolveLinkFromLabel(crumbParent)">{{ crumbParent }}</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{{ crumbChild }}</li>
+    </ol>
+  </nav>
+  <router-outlet></router-outlet>
+</main>

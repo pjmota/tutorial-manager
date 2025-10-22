@@ -1,0 +1,81 @@
+<div class="row" [ngClass]="{ 'justify-content-center': !currentTutorial }">
+  <div class="col-12 col-md-8 col-lg-7" [ngClass]="{ 'mx-auto': !currentTutorial }">
+    <div class="input-group mb-3">
+      <label for="searchTitle" class="visually-hidden">Buscar por título</label>
+      <input id="searchTitle" type="text" class="form-control" placeholder="Buscar por título" [(ngModel)]="title">
+      <button class="btn btn-outline-secondary" (click)="searchTitle()" aria-label="Buscar por título">Buscar</button>
+    </div>
+
+    <div class="row g-2 mb-3" aria-label="Resumo de tutoriais">
+      <div class="col-12 col-md-4">
+        <div class="card text-center shadow-sm">
+          <div class="card-body py-2">
+            <div class="small text-muted">Total</div>
+            <div class="h5 mb-0">{{ stats.total }}</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-4">
+        <div class="card text-center shadow-sm">
+          <div class="card-body py-2">
+            <div class="small text-muted">Publicados</div>
+            <div class="h5 mb-0">{{ stats.published }}</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-4">
+        <div class="card text-center shadow-sm">
+          <div class="card-body py-2">
+            <div class="small text-muted">Rascunhos</div>
+            <div class="h5 mb-0">{{ stats.drafts }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="toolbar d-grid d-md-flex align-items-center mb-2 gap-2">
+      <h5 class="mb-0">Tutoriais</h5>
+      <fieldset class="filters d-grid d-sm-flex gap-2">
+        <legend class="visualmente-oculto visually-hidden">Filtros de publicação</legend>
+        <button class="btn btn-sm" [class.btn-primary]="filter==='all'" [class.btn-outline-primary]="filter!=='all'" (click)="applyFilter('all')">Todos</button>
+        <button class="btn btn-sm" [class.btn-primary]="filter==='published'" [class.btn-outline-primary]="filter!=='published'" (click)="applyFilter('published')">Publicados</button>
+        <button class="btn btn-sm" [class.btn-primary]="filter==='draft'" [class.btn-outline-primary]="filter!=='draft'" (click)="applyFilter('draft')">Rascunhos</button>
+      </fieldset>
+      <button class="btn btn-sm btn-outline-secondary action-btn" (click)="toggleSort()" aria-label="Alternar ordenação">Ordenar {{ sortAsc ? 'A→Z' : 'Z→A' }}</button>
+      <button class="btn btn-sm btn-danger action-btn" (click)="removeAllTutorials()">Excluir Todos</button>
+    </div>
+    <div class="card shadow-sm">
+      <div class="card-body p-0">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item" 
+              *ngFor="let tutorial of filteredTutorials; let i = index; trackBy: trackById"
+              [class.active]="i === currentIndex"
+              [attr.aria-selected]="i === currentIndex ? 'true' : 'false'">
+            <button type="button" class="w-100 d-flex justify-content-between align-items-center text-start"
+                    (click)="setActiveTutorial(tutorial, i)" (keydown.enter)="setActiveTutorial(tutorial, i)"
+                    [attr.aria-pressed]="i === currentIndex ? 'true' : 'false'"
+                    style="background:none;border:none;padding:0;cursor:pointer">
+              <span>{{ tutorial.title }}</span>
+              <span class="badge" [class.bg-success]="tutorial.published" [class.bg-secondary]="!tutorial.published">{{ tutorial.published ? 'Publicado' : 'Rascunho' }}</span>
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <output class="alert alert-info mt-2" *ngIf="!loading && filteredTutorials.length === 0" aria-live="polite">Nenhum tutorial encontrado</output>
+    <output class="spinner-border spinner-border-sm mt-2" *ngIf="loading" aria-live="polite">Carregando…</output>
+    <output class="text-success mt-2" *ngIf="message" aria-live="polite">{{ message }}</output>
+  </div>
+
+  <div class="col-12 col-md-4 col-lg-5" *ngIf="currentTutorial">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <div class="d-flex align-items-center">
+          <h5 class="card-title mb-0">Detalhes</h5>
+          <button type="button" class="btn btn-sm btn-outline-secondary ms-auto" (click)="clearSelection()">Fechar</button>
+        </div>
+        <app-tutorial-details [viewMode]="true" [currentTutorial]="currentTutorial"></app-tutorial-details>
+      </div>
+    </div>
+  </div>
+</div>

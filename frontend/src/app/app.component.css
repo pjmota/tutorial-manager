@@ -1,0 +1,39 @@
+/* Wrapper full-height para a rota de login */
+.login-host {
+  min-height: 100vh;
+  padding: 0;
+  background-color: #e5e5e5;
+}
+
+/* User menu styles */
+.user-menu {
+  position: relative;
+}
+.user-menu .avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #0d6efd;
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+.user-menu .username {
+  color: #fff;
+  font-weight: 500;
+}
+.user-menu .dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  display: block;
+  min-width: 160px;
+}
+
+/* Pointer para itens do dropdown (Admin, Logoff) */
+.user-menu .dropdown-menu .dropdown-item {
+  cursor: pointer;
+}

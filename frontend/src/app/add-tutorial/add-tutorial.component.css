@@ -1,0 +1,6 @@
+/* Mobile-first: botões ocupam largura total no mobile */
+.action-btn { width: 100%; display: inline-flex; align-items: center; justify-content: center; }
+
+@media (min-width: 768px) {
+  .action-btn { width: auto; }
+}

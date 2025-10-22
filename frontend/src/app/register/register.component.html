@@ -1,0 +1,41 @@
+<div class="login-page">
+  <div class="login-card d-flex">
+    <div class="login-left flex-fill">
+      <div class="login-hero">
+        <h2 class="hero-title">Crie sua conta</h2>
+        <p class="hero-subtitle">Ganhe acesso ao Sistema de Tutoriais.</p>
+      </div>
+    </div>
+    <div class="login-right flex-fill">
+      <div class="signin">
+        <h4 class="signin-title">Criar conta</h4>
+        <form *ngIf="form" [formGroup]="form" (ngSubmit)="onSubmit()">
+          <div class="mb-3">
+            <input type="text" class="form-control rounded-pill" placeholder="Nome" formControlName="firstName" [ngClass]="{'is-invalid': submitted && f['firstName'].errors}">
+            <div class="invalid-feedback" *ngIf="submitted && f['firstName'].errors">Informe seu nome</div>
+          </div>
+          <div class="mb-3">
+            <input type="text" class="form-control rounded-pill" placeholder="Sobrenome" formControlName="lastName" [ngClass]="{'is-invalid': submitted && f['lastName'].errors}">
+            <div class="invalid-feedback" *ngIf="submitted && f['lastName'].errors">Informe seu sobrenome</div>
+          </div>
+          <div class="mb-3">
+            <input type="email" class="form-control rounded-pill" placeholder="E-mail" formControlName="email" [ngClass]="{'is-invalid': submitted && f['email'].errors}">
+            <div class="invalid-feedback" *ngIf="submitted && f['email'].errors">Informe um e-mail válido</div>
+          </div>
+          <div class="mb-3">
+            <input type="password" class="form-control rounded-pill" placeholder="Password" formControlName="password" [ngClass]="{'is-invalid': submitted && f['password'].errors}">
+            <div class="invalid-feedback" *ngIf="submitted && f['password'].errors">Informe uma senha válida</div>
+          </div>
+          <button class="btn btn-red w-100" [disabled]="loading">Criar conta</button>
+          <div class="d-flex align-items-center mt-2" *ngIf="loading">
+            <div class="spinner-border spinner-border-sm me-2" aria-hidden="true"></div>
+            <output aria-live="polite">Criando conta...</output>
+          </div>
+          <output class="text-success mt-2" *ngIf="success" aria-live="polite">{{ success }}</output>
+          <div class="text-danger mt-2" *ngIf="error" role="alert" aria-live="assertive">{{ error }}</div>
+        </form>
+        <div class="mt-3 small text-center text-muted">Já tem conta? <a [routerLink]="'/login'" class="text-decoration-none">Entrar</a></div>
+      </div>
+    </div>
+  </div>
+</div>

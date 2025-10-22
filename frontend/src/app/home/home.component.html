@@ -1,0 +1,43 @@
+<div class="p-4 p-md-5 mb-4 bg-light rounded-3">
+  <div class="container-fluid home-hero">
+    <h1 class="display-6">Bem-vindo ao Sistema de Tutoriais</h1>
+    <p class="col-md-8 fs-5">Organize conhecimento com eficiência: crie, edite, publique e encontre seus tutoriais rapidamente.</p>
+    <div class="home-actions">
+      <a routerLink="/tutorials" [state]="{ showBreadcrumb: true, parentLabel: 'Home', childLabel: 'Dashboard' }" class="btn btn-primary btn-lg">Ver Dashboard</a>
+      <a routerLink="/add" [state]="{ showBreadcrumb: true, parentLabel: 'Home', childLabel: 'Adicionar' }" class="btn btn-outline-secondary btn-lg">Adicionar Tutorial</a>
+    </div>
+    <small class="text-muted d-block mt-2">Dica: use a busca e filtros para chegar mais rápido ao conteúdo certo.</small>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row g-3">
+    <div class="col-12 col-md-4">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title">Crie com clareza</h5>
+          <p class="card-text">Use campos simples e descrições objetivas para facilitar o entendimento.</p>
+          <a routerLink="/add" [state]="{ showBreadcrumb: true, parentLabel: 'Home', childLabel: 'Adicionar' }" class="card-link">Adicionar agora →</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-4">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title">Encontre rápido</h5>
+          <p class="card-text">Busque por título e filtre por status para localizar o que precisa.</p>
+          <a routerLink="/tutorials" [state]="{ showBreadcrumb: true, parentLabel: 'Home', childLabel: 'Dashboard' }" class="card-link">Ir ao Dashboard →</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-4">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title">Publique com confiança</h5>
+          <p class="card-text">Gerencie rascunhos e publique quando estiver pronto. Sem complicações.</p>
+          <a routerLink="/tutorials" [state]="{ showBreadcrumb: true, parentLabel: 'Home', childLabel: 'Dashboard' }" class="card-link">Ver tutoriais →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

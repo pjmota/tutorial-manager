@@ -1,0 +1,9 @@
+/* Mobile-first ajustes de hero */
+.home-hero { padding: 1.25rem; }
+@media (min-width: 768px) { .home-hero { padding: 2rem 1.5rem; } }
+
+.home-actions { display: grid; grid-template-columns: 1fr; gap: .75rem; }
+@media (min-width: 576px) { .home-actions { grid-template-columns: auto auto; } }
+
+/* Garantir centralização do texto nos botões (horizontal e vertical) */
+.home-actions .btn { display: inline-flex; align-items: center; justify-content: center; }

@@ -1,0 +1,34 @@
+/* You can add global styles to this file, and also import other style files */
+html, body { height: 100%; }
+body { margin: 0; }
+
+/* Base mobile-first e acessibilidade */
+*:focus-visible { outline: 3px solid #c91d1d; outline-offset: 2px; }
+* { box-sizing: border-box; }
+img, video { max-width: 100%; height: auto; display: block; }
+
+/* Skip to content */
+.skip-link {
+  position: absolute; left: -999px; top: auto; width: 1px; height: 1px; overflow: hidden;
+}
+.skip-link:focus { left: 1rem; top: 1rem; width: auto; height: auto; padding: .5rem 1rem; background: #000; color: #fff; z-index: 1000; border-radius: .25rem; }
+
+/* Reduzir movimento para usuários sensíveis */
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}
+
+/* Utilitário de texto oculto acessível (fallback caso Bootstrap não esteja presente) */
+.visually-hidden:not(:focus):not(:active) {
+  position: absolute !important;
+  clip: rect(0 0 0 0) !important;
+  clip-path: inset(50%) !important;
+  height: 1px !important;
+  width: 1px !important;
+  overflow: hidden !important;
+  white-space: nowrap !important;
+}
+
+/* Container principal mobile-first */
+.main-container { padding: 1rem; }
+@media (min-width: 768px) { .main-container { padding: 1.5rem; } }

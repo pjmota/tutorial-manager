@@ -1,0 +1,101 @@
+<div class="admin-page">
+  <h2 class="mb-3">Admin</h2>
+
+  <ul class="nav nav-tabs mb-3">
+    <li class="nav-item">
+      <a class="nav-link" [class.active]="activeTab === 'users'" (click)="switchTab('users')">Usuários</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" [class.active]="activeTab === 'settings'" (click)="switchTab('settings')">Configurações</a>
+    </li>
+  </ul>
+
+  <div *ngIf="error" class="alert alert-danger" role="alert">{{ error }}</div>
+  <div *ngIf="success" class="alert alert-success" role="alert">{{ success }}</div>
+
+  <div [hidden]="activeTab !== 'users'">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h5 class="mb-0">Gerenciar usuários</h5>
+      <button class="btn btn-primary" (click)="toggleCreate()">{{ showCreate ? 'Fechar' : 'Criar novo usuário' }}</button>
+    </div>
+
+    <div *ngIf="showCreate" class="card mb-4">
+      <div class="card-body">
+        <h5 class="card-title">Novo usuário</h5>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label for="firstName" class="form-label">Nome</label>
+              <input id="firstName" type="text" class="form-control" formControlName="firstName" />
+              <div class="invalid-feedback d-block" *ngIf="form.get('firstName')?.touched && form.get('firstName')?.invalid">Informe o nome (mín. 2)</div>
+            </div>
+            <div class="col-md-6">
+              <label for="lastName" class="form-label">Sobrenome</label>
+              <input id="lastName" type="text" class="form-control" formControlName="lastName" />
+              <div class="invalid-feedback d-block" *ngIf="form.get('lastName')?.touched && form.get('lastName')?.invalid">Informe o sobrenome (mín. 2)</div>
+            </div>
+            <div class="col-md-6">
+              <label for="email" class="form-label">E-mail</label>
+              <input id="email" type="email" class="form-control" formControlName="email" />
+              <div class="invalid-feedback d-block" *ngIf="form.get('email')?.touched && form.get('email')?.invalid">Informe um e-mail válido</div>
+            </div>
+            <div class="col-md-6">
+              <label for="password" class="form-label">Senha</label>
+              <input id="password" type="password" class="form-control" formControlName="password" />
+              <div class="invalid-feedback d-block" *ngIf="form.get('password')?.touched && form.get('password')?.invalid">Informe a senha (mín. 4)</div>
+            </div>
+          </div>
+          <div class="mt-3">
+            <button class="btn btn-success" type="submit" [disabled]="loading">Salvar</button>
+            <span class="ms-3 text-muted" *ngIf="loading">Processando...</span>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Usuários</h5>
+        <div *ngIf="loading" class="text-muted">Carregando...</div>
+        <table class="table table-striped" *ngIf="!loading && users.length">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Nome</th>
+              <th>E-mail</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let u of users">
+              <td>{{ u.id }}</td>
+              <td>{{ (u.firstName || '') + ' ' + (u.lastName || '') }}</td>
+              <td>{{ u.username }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div *ngIf="!loading && !users.length" class="text-muted">Nenhum usuário cadastrado.</div>
+      </div>
+    </div>
+  </div>
+
+  <div [hidden]="activeTab !== 'settings'">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Configurações de e-mail</h5>
+        <form [formGroup]="mailerForm" (ngSubmit)="saveMailerFrom()" novalidate>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label for="mailerFrom" class="form-label">E-mail remetente (recuperação de senha)</label>
+              <input id="mailerFrom" type="email" class="form-control" formControlName="mailerFrom" />
+              <div class="invalid-feedback d-block" *ngIf="mailerForm.get('mailerFrom')?.touched && mailerForm.get('mailerFrom')?.invalid">Informe um e-mail válido</div>
+            </div>
+          </div>
+          <div class="mt-3">
+            <button class="btn btn-success" type="submit" [disabled]="loading">Salvar</button>
+            <span class="ms-3 text-muted" *ngIf="loading">Processando...</span>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

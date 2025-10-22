@@ -1,0 +1,11 @@
+/* Mobile-first toolbar: botões ocupam linha inteira no mobile, ajustam no desktop */
+.toolbar .filters .btn { width: 100%; display: inline-flex; align-items: center; justify-content: center; }
+.toolbar .action-btn { width: 100%; display: inline-flex; align-items: center; justify-content: center; }
+
+@media (min-width: 576px) {
+  .toolbar .filters .btn { width: auto; }
+}
+
+@media (min-width: 768px) {
+  .toolbar .action-btn { width: auto; }
+}
