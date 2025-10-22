@@ -1,0 +1,5 @@
+lexik_jwt_authentication:
+    secret_key: '%env(resolve:JWT_SECRET)%'
+    token_ttl: 900
+    encoder:
+        signature_algorithm: HS256
