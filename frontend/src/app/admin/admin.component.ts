@@ -45,28 +45,27 @@ export class AdminComponent implements OnInit {
 
   toggleCreate(): void {
     this.showCreate = !this.showCreate;
-    this.success = '';
-    this.error = '';
-    if (!this.showCreate) this.form.reset();
   }
 
   onSubmit(): void {
-    if (this.form.invalid) { this.form.markAllAsTouched(); return; }
-    const payload = this.form.value;
+    if (this.form.invalid) { return; }
     this.loading = true;
     this.error = '';
     this.success = '';
+    const payload = {
+      firstName: this.form.value.firstName,
+      lastName: this.form.value.lastName,
+      email: this.form.value.email,
+      password: this.form.value.password,
+    };
     this.authService.register(payload).subscribe({
-      next: (user) => {
-        this.success = `Usuário ${user?.username || ''} criado com sucesso.`;
+      next: () => {
+        this.success = 'Usuário criado com sucesso';
         this.form.reset();
-        this.showCreate = false;
+        this.loading = false;
         this.loadUsers();
       },
-      error: (err) => {
-        this.error = err?.error?.message || 'Falha ao criar usuário';
-        this.loading = false;
-      }
+      error: (err) => { this.error = err?.error?.message || 'Falha ao criar usuário'; this.loading = false; }
     });
   }
 
@@ -98,20 +97,30 @@ export class AdminComponent implements OnInit {
   }
 
   saveMailerFrom(): void {
-    if (this.mailerForm.invalid) { this.mailerForm.markAllAsTouched(); return; }
-    const email = this.mailerForm.value.mailerFrom;
+    if (this.mailerForm.invalid) { return; }
     this.loading = true;
     this.error = '';
     this.success = '';
+    const email = this.mailerForm.value.mailerFrom;
     this.authService.updateMailerFrom(email).subscribe({
-      next: (res) => {
-        this.success = 'E-mail do remetente atualizado com sucesso.';
+      next: () => { this.success = 'E-mail do remetente atualizado'; this.loading = false; },
+      error: (err) => { this.error = err?.error?.message || 'Falha ao atualizar e-mail do remetente'; this.loading = false; }
+    });
+  }
+
+  resetPassword(u: User): void {
+    if (!u?.id) { return; }
+    const ok = typeof window !== 'undefined' ? window.confirm(`Resetar a senha de ${u.username} para 123456?`) : true;
+    if (!ok) { return; }
+    this.loading = true;
+    this.error = '';
+    this.success = '';
+    this.authService.resetUserPassword(u.id!).subscribe({
+      next: () => {
+        this.success = `Senha de ${u.username} redefinida para '123456'. O usuário poderá mantê-la ou alterá-la no menu 'Alterar senha'.`;
         this.loading = false;
       },
-      error: (err) => {
-        this.error = err?.error?.message || 'Falha ao atualizar e-mail do remetente';
-        this.loading = false;
-      }
+      error: (err) => { this.error = err?.error?.message || 'Falha ao resetar senha'; this.loading = false; }
     });
   }
 }

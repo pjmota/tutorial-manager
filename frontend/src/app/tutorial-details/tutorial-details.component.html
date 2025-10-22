@@ -6,7 +6,10 @@
 </div>
 
 <div *ngIf="!viewMode">
-  <output *ngIf="loading" class="spinner-border spinner-border-sm" aria-live="polite">Carregando…</output>
+  <output class="d-inline-flex align-items-center gap-2" *ngIf="loading" aria-live="polite">
+    <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+    <span>Carregando…</span>
+  </output>
   <form [formGroup]="form" *ngIf="form">
     <div class="mb-3">
       <label class="form-label" for="title">Título</label>

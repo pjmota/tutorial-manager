@@ -57,6 +57,10 @@ export class AuthenticationService {
     );
   }
 
+  resetUserPassword(id: number): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/users/${id}/reset-password`, {});
+  }
+
   logout() {
     localStorage.removeItem('user');
     this.userSubject.next(null);

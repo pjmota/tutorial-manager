@@ -63,6 +63,7 @@
               <th>#</th>
               <th>Nome</th>
               <th>E-mail</th>
+              <th>Ações</th>
             </tr>
           </thead>
           <tbody>
@@ -70,6 +71,11 @@
               <td>{{ u.id }}</td>
               <td>{{ (u.firstName || '') + ' ' + (u.lastName || '') }}</td>
               <td>{{ u.username }}</td>
+              <td>
+                <button type="button" class="btn btn-outline-danger btn-sm" (click)="resetPassword(u)" [disabled]="loading" [attr.aria-label]="'Resetar senha do usuário ' + u.username">
+                  Resetar senha
+                </button>
+              </td>
             </tr>
           </tbody>
         </table>

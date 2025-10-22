@@ -63,7 +63,10 @@
       </div>
     </div>
     <output class="alert alert-info mt-2" *ngIf="!loading && filteredTutorials.length === 0" aria-live="polite">Nenhum tutorial encontrado</output>
-    <output class="spinner-border spinner-border-sm mt-2" *ngIf="loading" aria-live="polite">Carregando…</output>
+    <output class="d-inline-flex align-items-center gap-2 mt-2" *ngIf="loading" aria-live="polite">
+      <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+      <span>Carregando…</span>
+    </output>
     <output class="text-success mt-2" *ngIf="message" aria-live="polite">{{ message }}</output>
   </div>
 

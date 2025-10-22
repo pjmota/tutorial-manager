@@ -184,7 +184,7 @@ class AuthController extends AbstractController
         $rows = $this->db->executeQuery(
             'SELECT id, username, first_name, last_name FROM users ORDER BY id ASC'
         )->fetchAllAssociative();
-
+    
         $users = array_map(static function(array $r) {
             return [
                 'id' => (int)$r['id'],
@@ -193,7 +193,7 @@ class AuthController extends AbstractController
                 'lastName' => (string)$r['last_name'],
             ];
         }, $rows);
-
+    
         return new JsonResponse($users);
     }
 
@@ -232,7 +232,31 @@ class AuthController extends AbstractController
             return new JsonResponse(['message' => $message], $status);
         }
     }
-
+    
+    #[Route('/api/users/{id}/reset-password', name: 'api_users_password_reset_admin', methods: ['POST'])]
+    public function resetPasswordAdmin(int $id): JsonResponse
+    {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return new JsonResponse(['message' => 'Forbidden'], 403);
+        }
+        try {
+            $row = $this->db->executeQuery(
+                'SELECT id, username FROM users WHERE id = :id',
+                ['id' => $id]
+            )->fetchAssociative();
+            if (!$row) {
+                return new JsonResponse(['message' => 'User not found'], 404);
+            }
+            $probe = new User();
+            $probe->setUsername((string)$row['username']);
+            $hashed = $this->passwordHasher->hashPassword($probe, '123456');
+            $this->updatePasswordOrFail((int)$row['id'], $hashed);
+            return new JsonResponse(['message' => 'Password reset successfully', 'defaultPassword' => '123456'], 200);
+        } catch (\Throwable $e) {
+            return new JsonResponse(['message' => 'Internal error'], 500);
+        }
+    }
+    
     private function requireBearerToken(Request $request): string
     {
         $authHeader = (string)$request->headers->get('Authorization');

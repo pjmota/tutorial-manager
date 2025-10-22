@@ -15,10 +15,10 @@ export class ErrorInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(catchError(err => {
-      if ([401, 403].includes(err.status)) {
+      // Em 401 (não autenticado), encerrar sessão. Em 403, apenas propagar o erro.
+      if (err.status === 401) {
         this.authService.logout();
       }
-      // Removida atribuição inútil à variável 'error'
       return throwError(() => err);
     }));
   }
