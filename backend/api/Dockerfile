@@ -1,8 +1,12 @@
 # syntax=docker/dockerfile:1
 FROM php:8.3-cli
 
+# Evita prompts interativos
+ENV DEBIAN_FRONTEND=noninteractive
+
 # Instala dependências do sistema e extensões PHP necessárias
 RUN apt-get update && apt-get install -y --no-install-recommends \
+    apt-utils \
     build-essential \
     git \
     libicu-dev \
