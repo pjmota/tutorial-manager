@@ -3,12 +3,23 @@
 Aplicação completa para gerenciamento de tutoriais, com autenticação, administração e CRUD de conteúdos. Composta por um backend em Symfony (API REST) e um frontend em Angular.
 
 ## O que a aplicação faz
-- Autenticação de usuários com JWT e refresh token.
-- Registro de novos usuários.
-- Listagem de usuários (restrita a `ROLE_ADMIN`).
-- CRUD de tutoriais: criar, listar (com filtro por título), buscar por id, atualizar e excluir.
-- Recuperação de senha por e-mail (dev: Mailpit) e confirmação por token.
-- Alteração de senha autenticado.
+- Tutoriais: criar, listar com filtro por título, obter por id, atualizar e excluir.
+- Modelo de tutoriais: `id`, `title`, `description`, `author`, `createdAt`, `updatedAt`.
+- Usuários e autenticação: login JWT e refresh token, registro, alteração de senha autenticado, recuperação de senha por e-mail (dev: Mailpit), listagem de usuários (apenas `ROLE_ADMIN`).
+
+Exemplos:
+- Payload de criação de tutorial:
+```json
+{
+  "title": "Introdução ao Angular",
+  "description": "Conceitos, componentes e serviços",
+  "author": "Pedro Mota"
+}
+```
+- Busca de tutoriais por título:
+```bash
+curl "http://localhost:4000/api/tutorials?title=Angular"
+```
 
 ## Tecnologias
 
