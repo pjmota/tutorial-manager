@@ -3,7 +3,6 @@ FROM php:8.3-cli
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Instala dependências do sistema necessárias
 RUN apt-get update && apt-get install -y --no-install-recommends \
     apt-utils \
     build-essential \
@@ -20,22 +19,23 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
  && docker-php-ext-install intl pdo pdo_sqlite zip \
  && rm -rf /var/lib/apt/lists/*
 
-# Instala Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /app
 
-# Copia composer e instala dependências
-COPY composer.json composer.lock ./
-RUN composer install --no-interaction --no-progress --prefer-dist
+# 🔹 Primeiro copia apenas composer.* para usar cache
+COPY composer.json composer.lock ./ 
 
-# Copia o restante do código
+RUN composer install --no-interaction --no-progress --no-scripts --prefer-dist
+
+# 🔹 Agora copia o restante do código
 COPY . .
 
-# Permissões
+# 🔹 Executa scripts do Symfony
+RUN composer run-script post-install-cmd
+
 RUN mkdir -p var && chown -R www-data:www-data var
 
-# Variáveis padrão
 ENV APP_ENV=prod \
     DATABASE_URL=sqlite:///var/data.sqlite \
     CORS_ALLOW_ORIGIN='^https?://localhost(:[0-9]+)?$'
