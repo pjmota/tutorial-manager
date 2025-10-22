@@ -38,8 +38,11 @@ RUN mkdir -p var && chown -R www-data:www-data var
 
 ENV APP_ENV=prod \
     DATABASE_URL=sqlite:///var/data.sqlite \
-    CORS_ALLOW_ORIGIN='^https?://localhost(:[0-9]+)?$'
+    CORS_ALLOW_ORIGIN='^https?://localhost(:[0-9]+)?$' \
+    ADMIN_EMAIL=admin@test.local \
+    ADMIN_PASSWORD=123456 \
+    ADMIN_SEED_WHEN_EMPTY=true
 
 EXPOSE 4000
 
-CMD ["php", "-S", "0.0.0.0:4000", "-t", "public"]
+CMD ["sh", "-lc", "php bin/console doctrine:migrations:migrate --no-interaction && php bin/seed_admin.php && php -S 0.0.0.0:4000 -t public"]
