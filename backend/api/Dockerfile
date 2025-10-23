@@ -45,4 +45,4 @@ ENV APP_ENV=prod \
 
 EXPOSE 4000
 
-CMD ["sh", "-lc", "php bin/console doctrine:migrations:migrate --no-interaction && php bin/seed_admin.php && php -S 0.0.0.0:4000 -t public"]
+CMD ["sh", "-lc", "php bin/console doctrine:migrations:migrate --no-interaction && php bin/console app:seed-admin && php -S 0.0.0.0:4000 -t public"]
