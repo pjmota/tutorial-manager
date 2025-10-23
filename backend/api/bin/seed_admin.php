@@ -14,10 +14,12 @@ $kernel = new \App\Kernel($env, $debug);
 $kernel->boot();
 $container = $kernel->getContainer();
 
-/** @var \Doctrine\DBAL\Connection $db */
-$db = $container->get(\Doctrine\DBAL\Connection::class);
+/** @var \Doctrine\Persistence\ManagerRegistry $doctrine */
+$doctrine = $container->get('doctrine');
+$db = $doctrine->getConnection(); // ✅ obtém a conexão de forma compatível com prod
+
 /** @var \Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface $hasher */
-$hasher = $container->get(\Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface::class);
+$hasher = $container->get('security.user_password_hasher');
 
 $adminEmail = getenv('ADMIN_EMAIL') ?: 'admin@test.local';
 $adminPassword = getenv('ADMIN_PASSWORD') ?: '123456';
